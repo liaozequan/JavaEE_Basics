@@ -5,4 +5,5 @@ public class GitTest {
     //version 1.1
     //version 1.2 hot-fix
     //version 1.3 master
+    //version 1.3 hot-fix
 }
