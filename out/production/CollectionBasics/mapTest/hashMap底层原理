@@ -1,0 +1,22 @@
+1.jdk7
+    HashMap hashMap = new HashMap();
+    在实例化后，底层创建了一个长度16的一位数组Entry[] table; <key,value>是一个Entry对象
+    ...可能经过多次put操作...
+    map.put(key1, value1)
+    首先调用key1所在类的hashCode()计算key1的哈希值，再对哈希值运算后，得到Entry数组中的存放位置
+    如果此位置上的数据为空，则<key1,value1>插入成功----情况1
+    如果此位置上的数据非空（意味着此位置上存放在一个或多个数据（多个数据以链表形式存储）），比较key1与已存数据的key的哈希值
+        如果key1的哈希值与其他key的哈希值都不相同，则<key1,value1>插入成功----情况2
+        如果key1的哈希值与某个数据的key相同，则继续比较：调用key1所在类的equal()与相同哈希值的key比较
+            如果equal()返回false：则<key1,value1>插入成功----情况3
+            如果equal()返回true：使用value1替换已有数据的value
+
+    补充：关于情况2，3：此时<key1,value1>和原来数据以链表形式存储
+    在不断添加过程中，会涉及扩容问题，默认扩容为原来的2倍
+
+2.jdk8
+    1.new HashMap()并没有创建Entry[] table
+    2.jdk8HashMap底层数组是Node[]
+    3.第一次调用put()时，底层才创建长度16的一位数组Node[]
+    4.当数组的某一个索引位置上的元素以链表形式存储的数据个数 > 8 且当前数组长度 > 64时
+      此时此索引位置上的所有数据改为红黑树存储
